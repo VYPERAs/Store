@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vypera | Community</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== KONFIGURASI VARIABEL PREMIUM ===== */
+        :root {
+            --primary-color: #8B5CF6;
+            --primary-dark: #7C3AED;
+            --primary-light: #A78BFA;
+            --secondary-color: #0EA5E9;
+            --accent-color: #10B981;
+            --text-color: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border-color: rgba(148, 163, 184, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+            background: #0A0A0F;
+        }
+        
+        /* ANIMATED BACKGROUND */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(-45deg, #0A0A0F, #1E1B2E, #0F172A, #1A1A2E);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            opacity: 0.1;
+            filter: blur(40px);
+            animation: floatShape 20s infinite linear;
+        }
+        
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 5%;
+            animation-duration: 25s;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 10%;
+            animation-duration: 20s;
+            animation-delay: 5s;
+            background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+        }
+        
+        .shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 15%;
+            animation-duration: 30s;
+            animation-delay: 10s;
+            background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            animation: particleFloat 20s infinite linear;
+        }
+        
+        /* ANIMATIONS */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes floatShape {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(100px, 50px) rotate(90deg); }
+            50% { transform: translate(50px, 100px) rotate(180deg); }
+            75% { transform: translate(-50px, 50px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        /* ANIMASI BACKGROUND ICON YANG BERUBAH-UBAH DAN BERGERAK BERSAMAAN */
+        @keyframes iconBackgroundAnimation {
+            0%, 100% {
+                background-position: 0% 50%;
+                transform: translateY(0);
+            }
+            25% {
+                background-position: 50% 100%;
+                transform: translateY(-8px);
+            }
+            50% {
+                background-position: 100% 50%;
+                transform: translateY(0);
+            }
+            75% {
+                background-position: 50% 0%;
+                transform: translateY(8px);
+            }
+        }
+        
+        /* KONTEN UTAMA */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .profile-img-container {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid transparent;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .profile-img-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            border-radius: 50%;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .username {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #F8FAFC, #A78BFA);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .tagline {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .followers {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .followers i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .link-item {
+            display: flex;
+            align-items: center;
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            animation: fadeInUp 0.8s forwards;
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* COLOR GRADING UNTUK SETIAP LINK */
+        .link-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+        
+        .instagram::before {
+            background: linear-gradient(135deg, 
+                rgba(225, 48, 108, 0.1) 0%, 
+                rgba(253, 29, 29, 0.15) 25%,
+                rgba(255, 192, 69, 0.1) 50%,
+                rgba(129, 52, 175, 0.1) 75%,
+                rgba(81, 91, 212, 0.1) 100%);
+        }
+        
+        .youtube::before {
+            background: linear-gradient(135deg, 
+                rgba(255, 0, 0, 0.1) 0%, 
+                rgba(204, 0, 0, 0.15) 25%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(230, 33, 23, 0.1) 75%,
+                rgba(255, 0, 0, 0.1) 100%);
+        }
+        
+        .tiktok::before {
+            background: linear-gradient(135deg, 
+                rgba(0, 0, 0, 0.1) 0%, 
+                rgba(37, 244, 238, 0.15) 25%,
+                rgba(255, 0, 128, 0.1) 50%,
+                rgba(0, 0, 0, 0.1) 75%,
+                rgba(37, 244, 238, 0.1) 100%);
+        }
+        
+        .discord::before {
+            background: linear-gradient(135deg, 
+                rgba(88, 101, 242, 0.1) 0%, 
+                rgba(71, 82, 196, 0.15) 25%,
+                rgba(114, 137, 218, 0.1) 50%,
+                rgba(88, 101, 242, 0.1) 75%,
+                rgba(71, 82, 196, 0.1) 100%);
+        }
+        
+        .link-item:hover::before {
+            opacity: 1;
+        }
+        
+        .link-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            background: rgba(30, 41, 59, 0.8);
+        }
+        
+        .link-item:nth-child(1) { animation-delay: 0.1s; }
+        .link-item:nth-child(2) { animation-delay: 0.2s; }
+        .link-item:nth-child(3) { animation-delay: 0.3s; }
+        .link-item:nth-child(4) { animation-delay: 0.4s; }
+        
+        .link-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-right: 15px;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            /* ANIMASI BERUBAH-UBAH DAN BERGERAK BERSAMAAN */
+            animation: iconBackgroundAnimation 6s ease-in-out infinite;
+        }
+        
+        /* BACKGROUND ICON YANG BERUBAH-UBAH */
+        .instagram .link-icon {
+            background: linear-gradient(45deg, 
+                #405DE6, #5851DB, #833AB4, #C13584, 
+                #E1306C, #FD1D1D, #F56040, #F77737, 
+                #FCAF45, #FFDC80, #405DE6);
+            background-size: 400% 400%;
+        }
+        
+        .youtube .link-icon {
+            background: linear-gradient(45deg, 
+                #FF0000, #FF3333, #FF6666, #FF9999,
+                #CC0000, #990000, #FF0000);
+            background-size: 400% 400%;
+        }
+        
+        .tiktok .link-icon {
+            background: linear-gradient(45deg, 
+                #000000, #111111, #25F4EE, #4AF6F0,
+                #FE2C55, #FF4D6D, #000000);
+            background-size: 400% 400%;
+        }
+        
+        .discord .link-icon {
+            background: linear-gradient(45deg, 
+                #5865F2, #6571F3, #7289DA, #8A9DEA,
+                #4752C4, #5865F2);
+            background-size: 400% 400%;
+        }
+        
+        .link-content {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .link-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+            background: linear-gradient(to right, #F8FAFC, #CBD5E1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .link-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+        
+        .link-arrow {
+            color: var(--text-muted);
+            font-size: 1.4rem;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .link-item:hover .link-arrow {
+            transform: translateX(5px);
+            color: var(--primary-light);
+        }
+        
+        /* ANIMASI SINCRON UNTUK SEMUA ICON */
+        .instagram .link-icon { animation-delay: 0s; }
+        .youtube .link-icon { animation-delay: 0s; }
+        .tiktok .link-icon { animation-delay: 0s; }
+        .discord .link-icon { animation-delay: 0s; }
+        
+        .footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <!-- BACKGROUND ANIMASI -->
+    <div class="background"></div>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <div class="particles" id="particles"></div>
+    
+    <!-- KONTEN UTAMA -->
+    <div class="container">
+        <header class="header">
+            <div class="profile-img-container">
+                <div id="profileImageContainer"></div>
+            </div>
+            <h1 class="username" id="usernameDisplay">Vypera</h1>
+            <p class="tagline" id="taglineDisplay">Join our growing community</p>
+            <div class="followers">
+                <i class="fas fa-users"></i>
+                <span id="followersDisplay">300+ members</span>
+            </div>
+        </header>
+        
+        <!-- Social Links -->
+        <main class="links" id="linksContainer"></main>
+        
+        <footer class="footer">
+            <p id="copyrightText">© 2025 VYPERA. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Konfigurasi
+        const profileData = {
+            username: "Vypera",
+            tagline: "Join our growing community",
+            followers: "300+",
+            profileImage: "https://cdn.discordapp.com/attachments/1446044939514548245/1459157866454843463/ChatGPT_Image_6_Des_2025_08.29.26.jpg?ex=69624229&is=6960f0a9&hm=fd57ec5c536250251358091df135ed44b65da353d49f35404930f35d39577c39&"
+        };
+        
+        const socialLinks = [
+            {
+                platform: "Instagram",
+                url: "https://www.instagram.com/vypera_store",
+                icon: "fab fa-instagram",
+                description: "Follow on Instagram",
+                colorClass: "instagram"
+            },
+            {
+                platform: "YouTube",
+                url: "https://www.youtube.com/@VyperaStore",
+                icon: "fab fa-youtube",
+                description: "Subscribe on YouTube",
+                colorClass: "youtube"
+            },
+            {
+                platform: "TikTok",
+                url: "https://www.tiktok.com/@vypera_store",
+                icon: "fab fa-tiktok",
+                description: "Follow on TikTok",
+                colorClass: "tiktok"
+            },
+            {
+                platform: "Discord",
+                url: "https://discord.gg/SeCXbdeEcA",
+                icon: "fab fa-discord",
+                description: "Join our Discord Community",
+                colorClass: "discord"
+            }
+        ];
+        
+        // Fungsi untuk membuat partikel
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                const size = Math.random() * 3 + 1;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 20;
+                
+                particle.style.left = `${left}%`;
+                particle.style.top = `${top}%`;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                const colors = ['#8B5CF6', '#0EA5E9', '#10B981', '#A78BFA'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Load konfigurasi
+        function loadConfiguration() {
+            // Load profil
+            document.getElementById('usernameDisplay').textContent = profileData.username;
+            document.getElementById('taglineDisplay').textContent = profileData.tagline;
+            document.getElementById('followersDisplay').textContent = profileData.followers + " members";
+            
+            const profileImageContainer = document.getElementById('profileImageContainer');
+            if (profileData.profileImage && profileData.profileImage.trim() !== "") {
+                profileImageContainer.innerHTML = `<img src="${profileData.profileImage}" alt="${profileData.username}" class="profile-img">`;
+            } else {
+                profileImageContainer.innerHTML = `<div class="profile-img-placeholder">${profileData.username.charAt(0)}</div>`;
+            }
+            
+            // Load social links
+            const linksContainer = document.getElementById('linksContainer');
+            socialLinks.forEach((link, index) => {
+                const linkElement = document.createElement('a');
+                linkElement.href = link.url;
+                linkElement.target = "_blank";
+                linkElement.rel = "noopener noreferrer";
+                linkElement.className = `link-item ${link.colorClass}`;
+                linkElement.style.animationDelay = `${0.1 * (index + 1)}s`;
+                
+                linkElement.innerHTML = `
+                    <div class="link-icon">
+                        <i class="${link.icon}"></i>
+                    </div>
+                    <div class="link-content">
+                        <div class="link-title">${link.platform}</div>
+                        <div class="link-description">${link.description}</div>
+                    </div>
+                    <div class="link-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                `;
+                
+                linksContainer.appendChild(linkElement);
+            });
+            
+            // Load copyright
+            document.getElementById('copyrightText').textContent = "© 2025 VYPERA. All rights reserved.";
+            
+            // Sinkronisasi animasi icon
+            syncIconAnimations();
+        }
+        
+        // Fungsi untuk sinkronisasi animasi icon
+        function syncIconAnimations() {
+            const icons = document.querySelectorAll('.link-icon');
+            icons.forEach(icon => {
+                // Reset dan mulai ulang animasi agar semua sinkron
+                icon.style.animation = 'none';
+                setTimeout(() => {
+                    icon.style.animation = 'iconBackgroundAnimation 6s ease-in-out infinite';
+                }, 10);
+            });
+        }
+        
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            loadConfiguration();
+        });
+    </script>
+</body>
+</html>
